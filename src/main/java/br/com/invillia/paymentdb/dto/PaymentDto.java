@@ -4,9 +4,10 @@ import br.com.invillia.paymentdb.model.Payment;
 
 import java.math.BigDecimal;
 import java.util.Objects;
-import java.util.Optional;
 
 public class PaymentDto {
+
+
 
     private String name;
 

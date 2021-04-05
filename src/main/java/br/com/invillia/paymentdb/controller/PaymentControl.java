@@ -24,7 +24,7 @@ public class PaymentControl {
     }
 
     @PostMapping("/v1")
-    public Optional<PaymentDto> postPayment(PaymentDto paymentDto) {
+    public Optional<PaymentDto> postPayment(@RequestBody PaymentDto paymentDto) {
         return paymentService.postPayment(paymentDto);
     }
 }
