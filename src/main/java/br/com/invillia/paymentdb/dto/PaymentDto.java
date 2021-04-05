@@ -1,13 +1,13 @@
 package br.com.invillia.paymentdb.dto;
 
 import br.com.invillia.paymentdb.model.Payment;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@Data
 public class PaymentDto {
-
-
 
     private String name;
 
@@ -20,21 +20,6 @@ public class PaymentDto {
         this.value = payment.getValue();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public BigDecimal getValue() {
-        return value;
-    }
-
-    public void setValue(BigDecimal value) {
-        this.value = value;
-    }
 
     public Payment convert() {
         Payment payment = new Payment();

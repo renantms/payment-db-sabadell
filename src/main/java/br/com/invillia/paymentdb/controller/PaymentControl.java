@@ -18,12 +18,12 @@ public class PaymentControl {
         this.paymentService = paymentService;
     }
 
-    @GetMapping("/v1/{name}")
+    @GetMapping("/{name}")
     public Optional<PaymentDto> getPayment(@PathVariable String name){
         return paymentService.getPayment(name);
     }
 
-    @PostMapping("/v1")
+    @PostMapping
     public Optional<PaymentDto> postPayment(@RequestBody PaymentDto paymentDto) {
         return paymentService.postPayment(paymentDto);
     }
