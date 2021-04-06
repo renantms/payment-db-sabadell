@@ -6,7 +6,9 @@ import br.com.invillia.paymentdb.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PaymentService {
@@ -18,14 +20,10 @@ public class PaymentService {
         this.paymentRepository = paymentRepository;
     }
 
-    public Optional<PaymentDto> getPayment(String name) {
-        Optional<Payment> paymentOptional = paymentRepository.findByName(name);
+    public List<PaymentDto> getPayment(String name) {
+        List<Payment> paymentList = paymentRepository.findByName(name);
 
-        if(paymentOptional.isEmpty()){
-            return Optional.empty();
-        }
-
-        return Optional.of(new PaymentDto(paymentOptional.get()));
+        return paymentList.stream().map(PaymentDto::new).collect(Collectors.toList());
     }
 
     public Optional<PaymentDto> postPayment(PaymentDto paymentDto) {

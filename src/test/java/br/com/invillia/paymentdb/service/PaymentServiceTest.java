@@ -11,9 +11,10 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -24,23 +25,26 @@ public class PaymentServiceTest {
     @Mock
     private PaymentRepository paymentRepository;
 
-    private PaymentDto paymentDtoTest;
+    private List<PaymentDto> paymentDtoTest;
 
     @BeforeEach
     void beforeEach() {
         MockitoAnnotations.openMocks(this);
         this.paymentService = new PaymentService(paymentRepository);
 
-        this.paymentDtoTest = new PaymentDto();
-        paymentDtoTest.setName("Renan");
-        paymentDtoTest.setValue(new BigDecimal("300"));
+        this.paymentDtoTest = new ArrayList<>();
+        paymentDtoTest.add(new PaymentDto());
+
+        paymentDtoTest.get(0).setName("Renan");
+        paymentDtoTest.get(0).setValue(new BigDecimal("300"));
     }
 
-    private void configureGet(String name, Optional<Payment> payment) {
-        Mockito.when(paymentRepository.findByName(name)).thenReturn(payment);
+    private void configureGet(String name, List<Payment> payment) {
+        Mockito.when(paymentRepository.findByName(name)).thenReturn(payment.stream()
+                                                        .filter((value -> value.getName().equals(name))).collect(Collectors.toList()));
     }
 
-    private Optional<PaymentDto> configureGetAndReturn(String name, Optional<Payment> payment) {
+    private List<PaymentDto> configureGetAndReturn(String name, List<Payment> payment) {
         configureGet(name, payment);
         return paymentService.getPayment(name);
     }
@@ -48,13 +52,13 @@ public class PaymentServiceTest {
 
     @Test
     void getWillReturnPayment() {
-        Optional<PaymentDto> paymentDtoOptional = configureGetAndReturn("Renan", Optional.of(paymentDtoTest.convert()));
-        assertTrue(paymentDtoTest.equals(paymentDtoOptional.get()));
+        List<PaymentDto> paymentDtoList = configureGetAndReturn("Renan", paymentDtoTest.stream().map(PaymentDto::convert).collect(Collectors.toList()));
+        assertTrue(paymentDtoTest.equals(paymentDtoList));
     }
 
     @Test
     void getWillNotReturnPayment() {
-        Optional<PaymentDto> paymentDtoOptional = configureGetAndReturn("Scolari", Optional.empty());
-        assertFalse(paymentDtoOptional.isPresent());
+        List<PaymentDto> paymentDtoList = configureGetAndReturn("Scolari", paymentDtoTest.stream().map(PaymentDto::convert).collect(Collectors.toList()));
+        assertTrue(paymentDtoList.isEmpty());
     }
 }

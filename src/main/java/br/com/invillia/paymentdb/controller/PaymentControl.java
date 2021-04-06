@@ -5,6 +5,7 @@ import br.com.invillia.paymentdb.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -18,13 +19,8 @@ public class PaymentControl {
         this.paymentService = paymentService;
     }
 
-    @GetMapping("/{name}")
-    public Optional<PaymentDto> getPayment(@PathVariable String name){
+    @GetMapping
+    public List<PaymentDto> getPayment(@RequestParam String name){
         return paymentService.getPayment(name);
-    }
-
-    @PostMapping
-    public Optional<PaymentDto> postPayment(@RequestBody PaymentDto paymentDto) {
-        return paymentService.postPayment(paymentDto);
     }
 }
