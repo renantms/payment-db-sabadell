@@ -16,7 +16,7 @@ public class ListenerPaymentService {
         this.paymentRepository = paymentRepository;
     }
 
-    @KafkaListener(topics = "payment")
+    @KafkaListener(topics = "payment3", groupId = "teste")
     public void listen(PaymentDto paymentDto){
         paymentRepository.save(paymentDto.convert());
     }

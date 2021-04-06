@@ -16,7 +16,6 @@ public class Payment {
     private Long id;
 
     @NotNull @NotEmpty
-    @Column(unique = true)
     private String name;
 
     @NotNull
