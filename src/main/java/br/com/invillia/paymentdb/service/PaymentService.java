@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +25,4 @@ public class PaymentService {
         return paymentList.stream().map(PaymentDto::new).collect(Collectors.toList());
     }
 
-    public Optional<PaymentDto> postPayment(PaymentDto paymentDto) {
-        return Optional.of(new PaymentDto(paymentRepository.save(paymentDto.convert())));
-    }
 }

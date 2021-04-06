@@ -46,7 +46,7 @@ public class PaymentControlTest {
 
     private List<PaymentDto> configureGetAndReturn(String name, List<PaymentDto> payment) {
         configureGet(name, payment);
-        return paymentService.getPayment(name);
+        return paymentControl.getPayment(name);
     }
 
 
