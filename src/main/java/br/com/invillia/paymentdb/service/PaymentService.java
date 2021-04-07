@@ -1,6 +1,7 @@
 package br.com.invillia.paymentdb.service;
 
 import br.com.invillia.paymentdb.dto.PaymentDto;
+import br.com.invillia.paymentdb.dto.PaymentMapper;
 import br.com.invillia.paymentdb.model.Payment;
 import br.com.invillia.paymentdb.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class PaymentService {
     public List<PaymentDto> getPayment(String name) {
         List<Payment> paymentList = paymentRepository.findByName(name);
 
-        return paymentList.stream().map(PaymentDto::new).collect(Collectors.toList());
+        return paymentList.stream().map(PaymentMapper.INSTANCE::paymentToPaymentDto).collect(Collectors.toList());
     }
 
 }

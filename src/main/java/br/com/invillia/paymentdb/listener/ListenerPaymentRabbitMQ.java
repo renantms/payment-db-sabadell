@@ -1,6 +1,7 @@
 package br.com.invillia.paymentdb.listener;
 
 import br.com.invillia.paymentdb.dto.PaymentDto;
+import br.com.invillia.paymentdb.dto.PaymentMapper;
 import br.com.invillia.paymentdb.repository.PaymentRepository;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class ListenerPaymentRabbitMQ {
 
     @RabbitListener(queues = "payment")
     public void savePayment(PaymentDto paymentDto) throws Exception{
-        paymentRepository.save(paymentDto.convert());
+        paymentRepository.save(PaymentMapper.INSTANCE.paymentDtoToPayment(paymentDto));
     }
 
 }

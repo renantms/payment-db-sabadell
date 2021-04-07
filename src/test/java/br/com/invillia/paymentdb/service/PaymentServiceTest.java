@@ -1,6 +1,7 @@
 package br.com.invillia.paymentdb.service;
 
 import br.com.invillia.paymentdb.dto.PaymentDto;
+import br.com.invillia.paymentdb.dto.PaymentMapper;
 import br.com.invillia.paymentdb.model.Payment;
 import br.com.invillia.paymentdb.repository.PaymentRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,13 +53,13 @@ public class PaymentServiceTest {
 
     @Test
     void getWillReturnPayment() {
-        List<PaymentDto> paymentDtoList = configureGetAndReturn("Renan", paymentDtoTest.stream().map(PaymentDto::convert).collect(Collectors.toList()));
+        List<PaymentDto> paymentDtoList = configureGetAndReturn("Renan", paymentDtoTest.stream().map(PaymentMapper.INSTANCE::paymentDtoToPayment).collect(Collectors.toList()));
         assertTrue(paymentDtoTest.equals(paymentDtoList));
     }
 
     @Test
     void getWillNotReturnPayment() {
-        List<PaymentDto> paymentDtoList = configureGetAndReturn("Scolari", paymentDtoTest.stream().map(PaymentDto::convert).collect(Collectors.toList()));
+        List<PaymentDto> paymentDtoList = configureGetAndReturn("Scolari", paymentDtoTest.stream().map(PaymentMapper.INSTANCE::paymentDtoToPayment).collect(Collectors.toList()));
         assertTrue(paymentDtoList.isEmpty());
     }
 }
