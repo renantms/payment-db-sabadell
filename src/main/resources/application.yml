@@ -1,0 +1,20 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    password: 123
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+  rabbitmq:
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 1s
+          max-attempts: 5
+          max-interval: 4s
+          multiplier: 2
