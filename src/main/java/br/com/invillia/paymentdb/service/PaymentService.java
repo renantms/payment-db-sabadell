@@ -5,19 +5,16 @@ import br.com.invillia.paymentdb.dto.PaymentMapper;
 import br.com.invillia.paymentdb.model.Payment;
 import br.com.invillia.paymentdb.repository.PaymentRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Service
 @Slf4j
+@Service
 public class PaymentService {
 
     private PaymentRepository paymentRepository;

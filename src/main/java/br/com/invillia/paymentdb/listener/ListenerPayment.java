@@ -1,12 +1,9 @@
 package br.com.invillia.paymentdb.listener;
 
 import br.com.invillia.paymentdb.dto.PaymentDto;
-import br.com.invillia.paymentdb.dto.PaymentMapper;
-import br.com.invillia.paymentdb.repository.PaymentRepository;
 import br.com.invillia.paymentdb.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.support.ListenerExecutionFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
