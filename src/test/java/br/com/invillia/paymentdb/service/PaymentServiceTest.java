@@ -10,6 +10,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -41,13 +44,13 @@ public class PaymentServiceTest {
     }
 
     private void configureGet(String name, List<Payment> payment) {
-        Mockito.when(paymentRepository.findByName(name)).thenReturn(payment.stream()
-                                                        .filter((value -> value.getName().equals(name))).collect(Collectors.toList()));
+        Mockito.when(paymentRepository.findByName(name, PageRequest.of(0, 5))).thenReturn(new PageImpl<>(payment.stream()
+                                                        .filter((value -> value.getName().equals(name))).collect(Collectors.toList())));
     }
 
     private List<PaymentDto> configureGetAndReturn(String name, List<Payment> payment) {
         configureGet(name, payment);
-        return paymentService.getPayment(name);
+        return paymentService.getPayment(name, 0, 5);
     }
 
 

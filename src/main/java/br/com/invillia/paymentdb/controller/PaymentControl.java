@@ -22,7 +22,9 @@ public class PaymentControl {
     }
 
     @GetMapping
-    public List<PaymentDto> getPayment(@RequestParam String name){
-        return paymentService.getPayment(name);
+    public List<PaymentDto> getPayment(@RequestParam(required = false) String name,
+                                       @RequestParam(required = false, defaultValue = "0") int page,
+                                       @RequestParam(required = false, defaultValue = "5") int size){
+        return paymentService.getPayment(name, page, size);
     }
 }

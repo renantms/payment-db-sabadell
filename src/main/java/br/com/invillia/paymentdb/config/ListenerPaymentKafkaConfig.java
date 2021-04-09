@@ -16,8 +16,8 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
 @EnableKafka
+@Configuration
 public class ListenerPaymentKafkaConfig {
 
     @Bean
