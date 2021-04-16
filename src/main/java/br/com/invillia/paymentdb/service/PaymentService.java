@@ -2,6 +2,7 @@ package br.com.invillia.paymentdb.service;
 
 import br.com.invillia.paymentdb.dto.PaymentDto;
 import br.com.invillia.paymentdb.dto.PaymentMapper;
+import br.com.invillia.paymentdb.exception.SaveFailedException;
 import br.com.invillia.paymentdb.model.Payment;
 import br.com.invillia.paymentdb.repository.PaymentRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +47,7 @@ public class PaymentService {
         try{
             paymentRepository.save(PaymentMapper.INSTANCE.paymentDtoToPayment(paymentDto));
         } catch(Exception e){
-            throw new RuntimeException(e);
+            throw new SaveFailedException(paymentDto);
         }
     }
 

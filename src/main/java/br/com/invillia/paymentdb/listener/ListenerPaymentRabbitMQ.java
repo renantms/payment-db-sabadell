@@ -1,6 +1,7 @@
 package br.com.invillia.paymentdb.listener;
 
 import br.com.invillia.paymentdb.dto.PaymentDto;
+import br.com.invillia.paymentdb.exception.SaveFailedException;
 import br.com.invillia.paymentdb.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -18,15 +19,15 @@ public class ListenerPaymentRabbitMQ {
         this.paymentService = paymentService;
     }
 
-    @RabbitListener(queues = "payment")
+    @RabbitListener(queues = "paymentQueue")
     public void savePayment(PaymentDto paymentDto) throws Exception {
         log.info("Saving payment - RabbitMQ, paymentDto={}", paymentDto);
         try{
             paymentService.savePayment(paymentDto);
             log.info("Save successful - RabbitMQ, paymentDto={}", paymentDto);
-        }catch(RuntimeException e){
+        }catch(SaveFailedException e){
             log.error("Payment not saved - RabbitMQ, paymentDto={}", paymentDto);
-            throw new RuntimeException();
+            throw new SaveFailedException(paymentDto);
         }
     }
 
