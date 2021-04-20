@@ -1,11 +1,11 @@
-package br.com.invillia.paymentdb.dto;
+package br.com.invillia.paymentdb.domain.response;
 
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 @Data
-public class PaymentDto {
+public class PaymentResponse {
 
     private String name;
 

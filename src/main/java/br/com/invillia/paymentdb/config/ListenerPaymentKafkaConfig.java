@@ -1,6 +1,6 @@
 package br.com.invillia.paymentdb.config;
 
-import br.com.invillia.paymentdb.dto.PaymentDto;
+import br.com.invillia.paymentdb.domain.request.PaymentRequest;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
@@ -21,8 +21,8 @@ import java.util.Map;
 public class ListenerPaymentKafkaConfig {
 
     @Bean
-    KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, PaymentDto>> kafkaListenerContainerFactory(){
-        ConcurrentKafkaListenerContainerFactory<String, PaymentDto> factory =
+    KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, PaymentRequest>> kafkaListenerContainerFactory(){
+        ConcurrentKafkaListenerContainerFactory<String, PaymentRequest> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         factory.setConcurrency(3);
@@ -31,7 +31,7 @@ public class ListenerPaymentKafkaConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, PaymentDto> consumerFactory(){
+    public ConsumerFactory<String, PaymentRequest> consumerFactory(){
         return new DefaultKafkaConsumerFactory<>(consumerConfigs());
     }
 
@@ -42,7 +42,7 @@ public class ListenerPaymentKafkaConfig {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, PaymentDto.class);
+        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, PaymentRequest.class);
 
         return props;
     }

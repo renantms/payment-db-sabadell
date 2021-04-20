@@ -1,11 +1,11 @@
 package br.com.invillia.paymentdb.exception;
 
-import br.com.invillia.paymentdb.dto.PaymentDto;
+import br.com.invillia.paymentdb.domain.request.PaymentRequest;
 
 public class SaveFailedException extends RuntimeException {
 
-    public SaveFailedException(PaymentDto paymentDto){
-        super("Payment: " + paymentDto.toString() + " not saved");
+    public SaveFailedException(PaymentRequest paymentRequest){
+        super("Payment: " + paymentRequest.toString() + " not saved");
     }
 
 }

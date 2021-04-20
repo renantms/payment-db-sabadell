@@ -1,6 +1,6 @@
 package br.com.invillia.paymentdb.controller;
 
-import br.com.invillia.paymentdb.dto.PaymentDto;
+import br.com.invillia.paymentdb.domain.response.PaymentResponse;
 import br.com.invillia.paymentdb.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +22,9 @@ public class PaymentControl {
     }
 
     @GetMapping
-    public List<PaymentDto> getPayment(@RequestParam(required = false) String name,
-                                       @RequestParam(required = false, defaultValue = "0") int page,
-                                       @RequestParam(required = false, defaultValue = "5") int size){
+    public List<PaymentResponse> getPayment(@RequestParam(required = false) String name,
+                                            @RequestParam(required = false, defaultValue = "0") int page,
+                                            @RequestParam(required = false, defaultValue = "5") int size){
         return paymentService.getPayment(name, page, size);
     }
 }

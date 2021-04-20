@@ -1,6 +1,6 @@
 package br.com.invillia.paymentdb.listener;
 
-import br.com.invillia.paymentdb.dto.PaymentDto;
+import br.com.invillia.paymentdb.domain.request.PaymentRequest;
 import br.com.invillia.paymentdb.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -23,15 +23,15 @@ public class ListenerPayment {
     }
 
     @KafkaListener(topics = "payment3", groupId = "teste")
-    public void listen(PaymentDto paymentDto){
-        log.info("Saving payment - Kafka, paymentDto={}", paymentDto);
+    public void listen(PaymentRequest paymentRequest){
+        log.info("Saving payment - Kafka, paymentRequest={}", paymentRequest);
         try{
-            paymentService.savePayment(paymentDto);
-            log.info("Save successful - Kafka, paymentDto={}", paymentDto);
+            paymentService.savePayment(paymentRequest);
+            log.info("Save successful - Kafka, paymentRequest={}", paymentRequest);
         }catch(RuntimeException e){
-            log.error("Payment not saved - Kafka, paymentDto={}", paymentDto);
-            log.info("Allocating message to RabbitMQ, paymentDto={}", paymentDto);
-            rabbitTemplate.convertAndSend("paymentExchange", "payment", paymentDto);
+            log.error("Payment not saved - Kafka, paymentRequest={}", paymentRequest);
+            log.info("Allocating message to RabbitMQ, paymentRequest={}", paymentRequest);
+            rabbitTemplate.convertAndSend("paymentExchange", "payment", paymentRequest);
         }
     }
 

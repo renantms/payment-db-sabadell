@@ -1,7 +1,8 @@
 package br.com.invillia.paymentdb.service;
 
-import br.com.invillia.paymentdb.dto.PaymentDto;
-import br.com.invillia.paymentdb.dto.PaymentMapper;
+import br.com.invillia.paymentdb.domain.request.PaymentRequest;
+import br.com.invillia.paymentdb.domain.response.PaymentResponse;
+import br.com.invillia.paymentdb.domain.PaymentMapper;
 import br.com.invillia.paymentdb.model.Payment;
 import br.com.invillia.paymentdb.repository.PaymentRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,18 +29,18 @@ public class PaymentServiceTest {
     @Mock
     private PaymentRepository paymentRepository;
 
-    private List<PaymentDto> paymentDtoTest;
+    private List<PaymentRequest> paymentRequests;
 
     @BeforeEach
     void beforeEach() {
         MockitoAnnotations.openMocks(this);
         this.paymentService = new PaymentService(paymentRepository);
 
-        this.paymentDtoTest = new ArrayList<>();
-        paymentDtoTest.add(new PaymentDto());
+        this.paymentRequests = new ArrayList<>();
+        paymentRequests.add(new PaymentRequest());
 
-        paymentDtoTest.get(0).setName("Renan");
-        paymentDtoTest.get(0).setValue(new BigDecimal("300"));
+        paymentRequests.get(0).setName("Renan");
+        paymentRequests.get(0).setValue(new BigDecimal("300"));
     }
 
     private void configureGet(String name, List<Payment> payment) {
@@ -47,7 +48,7 @@ public class PaymentServiceTest {
                                                         .filter((value -> value.getName().equals(name))).collect(Collectors.toList())));
     }
 
-    private List<PaymentDto> configureGetAndReturn(String name, List<Payment> payment) {
+    private List<PaymentResponse> configureGetAndReturn(String name, List<Payment> payment) {
         configureGet(name, payment);
         return paymentService.getPayment(name, 0, 5);
     }
@@ -55,13 +56,15 @@ public class PaymentServiceTest {
 
     @Test
     void getWillReturnPayment() {
-        List<PaymentDto> paymentDtoList = configureGetAndReturn("Renan", paymentDtoTest.stream().map(PaymentMapper.INSTANCE::paymentDtoToPayment).collect(Collectors.toList()));
-        assertTrue(paymentDtoTest.equals(paymentDtoList));
+        List<PaymentResponse> paymentResponses = configureGetAndReturn("Renan", paymentRequests.stream().map(PaymentMapper.INSTANCE::paymentRequestToPayment).collect(Collectors.toList()));
+        List<PaymentResponse> payments = paymentRequests.stream().map(PaymentMapper.INSTANCE::paymentRequestToPaymentResponse).collect(Collectors.toList());
+
+        assertTrue(payments.equals(paymentResponses));
     }
 
     @Test
     void getWillNotReturnPayment() {
-        List<PaymentDto> paymentDtoList = configureGetAndReturn("Scolari", paymentDtoTest.stream().map(PaymentMapper.INSTANCE::paymentDtoToPayment).collect(Collectors.toList()));
-        assertTrue(paymentDtoList.isEmpty());
+        List<PaymentResponse> paymentResponses = configureGetAndReturn("Scolari", paymentRequests.stream().map(PaymentMapper.INSTANCE::paymentRequestToPayment).collect(Collectors.toList()));
+        assertTrue(paymentResponses.isEmpty());
     }
 }

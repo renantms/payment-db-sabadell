@@ -1,7 +1,8 @@
 package br.com.invillia.paymentdb.service;
 
-import br.com.invillia.paymentdb.dto.PaymentDto;
-import br.com.invillia.paymentdb.dto.PaymentMapper;
+import br.com.invillia.paymentdb.domain.request.PaymentRequest;
+import br.com.invillia.paymentdb.domain.response.PaymentResponse;
+import br.com.invillia.paymentdb.domain.PaymentMapper;
 import br.com.invillia.paymentdb.exception.SaveFailedException;
 import br.com.invillia.paymentdb.model.Payment;
 import br.com.invillia.paymentdb.repository.PaymentRepository;
@@ -25,7 +26,7 @@ public class PaymentService {
         this.paymentRepository = paymentRepository;
     }
 
-    public List<PaymentDto> getPayment(String name, int page, int size) {
+    public List<PaymentResponse> getPayment(String name, int page, int size) {
         Page<Payment> paymentPage;
 
         Pageable pageable = PageRequest.of(page, size);
@@ -40,14 +41,14 @@ public class PaymentService {
             return List.of();
         }
 
-        return paymentPage.map(PaymentMapper.INSTANCE::paymentToPaymentDto).toList();
+        return paymentPage.map(PaymentMapper.INSTANCE::paymentToPaymentResponse).toList();
     }
 
-    public void savePayment(PaymentDto paymentDto){
+    public void savePayment(PaymentRequest paymentRequest){
         try{
-            paymentRepository.save(PaymentMapper.INSTANCE.paymentDtoToPayment(paymentDto));
+            paymentRepository.save(PaymentMapper.INSTANCE.paymentRequestToPayment(paymentRequest));
         } catch(Exception e){
-            throw new SaveFailedException(paymentDto);
+            throw new SaveFailedException(paymentRequest);
         }
     }
 
